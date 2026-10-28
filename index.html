@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CZ The Builder — $CZBUILDER on BSC</title>
+  <meta name="description" content="CZ The Builder. Name CZ The Builder. Ticker CZBUILDER. Infrastructure today, a freer tomorrow. Live on BNB Smart Chain." />
+  <meta name="theme-color" content="#0b0e11" />
+  <meta property="og:title" content="CZ The Builder — $CZBUILDER" />
+  <meta property="og:description" content="Infrastructure today. A freer tomorrow. $CZBUILDER on BNB Smart Chain." />
+  <meta property="og:image" content="banner.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="banner.png" />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  <link rel="preload" as="image" href="banner.png" />
+  <link rel="preload" as="image" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Sora:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="is-loading">
+  <div class="noise" aria-hidden="true"></div>
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-orb ambient-orb-a"></span>
+    <span class="ambient-orb ambient-orb-b"></span>
+    <span class="ambient-beam"></span>
+  </div>
+  <canvas id="diamonds" aria-hidden="true"></canvas>
+  <div class="spark-layer" id="spark-layer" aria-hidden="true"></div>
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-mark">
+      <img src="logo.png" alt="" />
+      <span class="loader-ring"></span>
+    </div>
+    <p class="loader-label">Building…</p>
+  </div>
+
+  <header class="site-header" id="site-header">
+    <nav class="nav">
+      <a href="#top" class="nav-brand">
+        <img src="logo.png" alt="" class="nav-mark" />
+        <span class="nav-wordmark">CZ The Builder</span>
+        <span class="nav-ticker">$CZBUILDER</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#story">Story</a></li>
+        <li><a href="#buy">Buy</a></li>
+        <li><a href="#chart">Chart</a></li>
+        <li>
+          <a href="https://x.com/cz_binance/status/2102688111813628308" data-twitter target="_blank" rel="noopener noreferrer" class="nav-social" aria-label="CZ on X">
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href="#buy" data-buy class="nav-cta">Buy $CZBUILDER</a>
+        </li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <section class="hero" id="top">
+    <div class="hero-visual" data-parallax>
+      <img src="banner.png" alt="CZ The Builder in a yellow hard hat at a gold construction site" class="hero-banner" />
+      <div class="hero-veil"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-scan" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-shell">
+      <div class="hero-copy">
+        <p class="hero-kicker hero-anim" style="--d:0">
+          <span class="live-pip"></span>
+          BNB SMART CHAIN
+          <span>◆ $CZBUILDER</span>
+        </p>
+        <h1 class="hero-title">
+          <span class="title-soft hero-anim" style="--d:1">Infrastructure today. A freer tomorrow.</span>
+          <span class="title-loud hero-anim" style="--d:2"><span class="title-cz">CZ</span> The Builder</span>
+        </h1>
+        <p class="hero-tag hero-anim" style="--d:3">Build. Connect. Empower. Decentralize.</p>
+        <p class="hero-lede hero-anim" style="--d:4">
+          CZ The Builder is the man in the yellow hard hat — vest on, cranes up, blocks still stacking.
+          Name CZ The Builder. Ticker CZBUILDER. Live on BNB Smart Chain.
+        </p>
+        <div class="hero-actions hero-anim" style="--d:5">
+          <a href="#buy" data-buy class="btn btn-primary btn-magnetic">
+            <span class="btn-shine" aria-hidden="true"></span>
+            <span class="btn-diamond" aria-hidden="true">◆</span>
+            Buy $CZBUILDER
+          </a>
+          <a href="#about" class="btn btn-ghost btn-magnetic">Meet the builder</a>
+        </div>
+        <dl class="hero-stats hero-anim" style="--d:6">
+          <div>
+            <dt>Name</dt>
+            <dd>CZ The Builder</dd>
+          </div>
+          <div>
+            <dt>Ticker</dt>
+            <dd>$CZBUILDER</dd>
+          </div>
+          <div>
+            <dt>Chain</dt>
+            <dd>BSC</dd>
+          </div>
+          <div>
+            <dt>Site</dt>
+            <dd>Yellow chain</dd>
+          </div>
+        </dl>
+      </div>
+
+      <button class="hero-mascot hero-anim" id="pet-ceo" type="button" aria-label="CZ The Builder" style="--d:4">
+        <span class="mascot-ring"></span>
+        <span class="mascot-pulse" aria-hidden="true"></span>
+        <img src="logo.png" alt="CZ The Builder in a yellow hard hat" />
+        <span class="mascot-hint">BUILD</span>
+      </button>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span><img src="logo.png" alt="" /> CZ The Builder</span><i>◆</i>
+      <span>$CZBUILDER</span><i>◆</i>
+      <span>BNB SMART CHAIN</span><i>◆</i>
+      <span>YELLOW HARD HAT</span><i>◆</i>
+      <span>INFRASTRUCTURE TODAY</span><i>◆</i>
+      <span>A FREER TOMORROW</span><i>◆</i>
+      <span>BUILD BLOCKS</span><i>◆</i>
+      <span><img src="logo.png" alt="" /> CZ The Builder</span><i>◆</i>
+      <span>$CZBUILDER</span><i>◆</i>
+      <span>BNB SMART CHAIN</span><i>◆</i>
+      <span>YELLOW HARD HAT</span><i>◆</i>
+      <span>INFRASTRUCTURE TODAY</span><i>◆</i>
+      <span>A FREER TOMORROW</span><i>◆</i>
+      <span>BUILD BLOCKS</span><i>◆</i>
+    </div>
+  </div>
+
+  <main>
+    <section class="section about" id="about">
+      <div class="container about-grid">
+        <figure class="about-portrait reveal">
+          <div class="portrait-glow" aria-hidden="true"></div>
+          <img src="logo.png" alt="CZ The Builder tipping a yellow hard hat" />
+          <figcaption>CZ The Builder · BSC</figcaption>
+        </figure>
+        <div class="about-copy reveal">
+          <p class="eyebrow">The builder</p>
+          <h2 class="section-title">Infrastructure today.<br /><span class="accent">A freer tomorrow.</span></h2>
+          <p class="lede">
+            <strong>CZ The Builder</strong> is the face on the logo and the man on the site —
+            yellow hard hat, safety vest, gold light, blocks still going up.
+          </p>
+          <p class="lede dim">
+            Live on <strong>BNB Smart Chain</strong> as CZ The Builder. Ticker <strong>$CZBUILDER</strong>.
+            People, ideas, and a more open financial world.
+          </p>
+          <ul class="chips">
+            <li>BSC</li>
+            <li>$CZBUILDER</li>
+            <li>Hard hat</li>
+            <li>Build</li>
+            <li>Decentralize</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section lineage" id="story">
+      <div class="container">
+        <header class="section-head center reveal">
+          <p class="eyebrow">The lineage</p>
+          <h2 class="section-title">First the blocks.<br /><span class="accent">Then the yellow chain.</span></h2>
+        </header>
+        <ol class="lineage-track">
+          <li class="lineage-card reveal" style="--i:0">
+            <span>01</span>
+            <h3>Hard hat</h3>
+            <p>The mark of the build</p>
+          </li>
+          <li class="lineage-card reveal" style="--i:1">
+            <span>02</span>
+            <h3>Yellow chain</h3>
+            <p>BNB Smart Chain</p>
+          </li>
+          <li class="lineage-card is-now reveal" style="--i:2">
+            <img src="logo.png" alt="" />
+            <h3>CZ The Builder</h3>
+            <p>BSC · $CZBUILDER</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section post" id="post">
+      <div class="container">
+        <header class="section-head center reveal">
+          <p class="eyebrow">On X</p>
+          <h2 class="section-title">Quietly <span class="accent">building.</span></h2>
+        </header>
+        <div class="post-frame reveal">
+          <blockquote class="twitter-tweet" data-theme="dark" data-dnt="true">
+            <p lang="en" dir="ltr">Traveling, pushing crypto adoption, in back to back meetings. No interns managing my X account. So, manual tweets pauses. 🤣</p>
+            &mdash; CZ 🔶 BNB (@cz_binance)
+            <a href="https://x.com/cz_binance/status/2102688111813628308">September 23, 2026</a>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="section board" id="board">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">The site</p>
+          <h2 class="section-title">Build. Connect.<br /><span class="accent">Empower. Decentralize.</span></h2>
+        </header>
+        <div class="board-grid">
+          <article class="board-card reveal" style="--i:0">
+            <span>01</span>
+            <h3>Build</h3>
+            <p>Blocks for a better tomorrow. The hard hat never clocks out.</p>
+          </article>
+          <article class="board-card reveal" style="--i:1">
+            <span>02</span>
+            <h3>Connect</h3>
+            <p>People and ideas on one chain. CZ The Builder is the whole site.</p>
+          </article>
+          <article class="board-card reveal" style="--i:2">
+            <span>03</span>
+            <h3>Empower</h3>
+            <p>A more open financial world. Born on BNB Smart Chain.</p>
+          </article>
+          <article class="board-card reveal" style="--i:3">
+            <span>04</span>
+            <h3>Decentralize</h3>
+            <p>$CZBUILDER. The name is CZ The Builder. The ticker is the build.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section buy" id="buy">
+      <div class="container">
+        <header class="section-head center reveal">
+          <p class="eyebrow">How to buy</p>
+          <h2 class="section-title">Get <span class="accent">$CZBUILDER</span> on BSC</h2>
+        </header>
+        <ol class="steps">
+          <li class="step reveal" style="--i:0">
+            <span>01</span>
+            <h3>Wallet</h3>
+            <p>MetaMask, Trust, or Rabby. Switch network to BNB Smart Chain.</p>
+          </li>
+          <li class="step reveal" style="--i:1">
+            <span>02</span>
+            <h3>Fuel</h3>
+            <p>Hold a little BNB for gas. The build runs on the yellow chain.</p>
+          </li>
+          <li class="step reveal" style="--i:2">
+            <span>03</span>
+            <h3>Swap</h3>
+            <p>Open Flap, connect wallet, swap BNB → $CZBUILDER.</p>
+          </li>
+          <li class="step reveal" style="--i:3">
+            <span>04</span>
+            <h3>Hold</h3>
+            <p>Stack the blocks. Hold the line. Let the site keep rising.</p>
+          </li>
+        </ol>
+
+        <div class="ca-panel reveal" id="contract">
+          <div class="ca-meta">
+            <p class="eyebrow">Contract</p>
+            <h3>BSC CA</h3>
+          </div>
+          <div class="ca-box">
+            <code id="ca-display" class="ca-address">0x5afe09fe1ab928cb88338ec361dc535556ea7777</code>
+            <button id="copy-ca" class="btn btn-primary btn-copy" type="button" title="Copy address">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <p id="copy-toast" class="copy-toast" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="buy-cta reveal">
+          <a href="https://flap.sh/bnb/0x5afe09fe1ab928cb88338ec361dc535556ea7777" data-buy target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg btn-magnetic">
+            <span class="btn-shine" aria-hidden="true"></span>
+            <span class="btn-diamond" aria-hidden="true">◆</span>
+            Buy on Flap
+          </a>
+          <a href="https://x.com/cz_binance/status/2102688111813628308" data-twitter target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-lg btn-magnetic">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            View on X
+          </a>
+        </div>
+
+        <ul class="ecosystem reveal">
+          <li><a href="https://flap.sh/bnb/0x5afe09fe1ab928cb88338ec361dc535556ea7777" data-buy target="_blank" rel="noopener noreferrer">Flap</a></li>
+          <li><a href="https://dexscreener.com/bsc" id="eco-dex" target="_blank" rel="noopener noreferrer">DexScreener</a></li>
+          <li><a href="https://bscscan.com" id="eco-scan" target="_blank" rel="noopener noreferrer">BscScan</a></li>
+          <li><a href="https://x.com/cz_binance/status/2102688111813628308" data-twitter target="_blank" rel="noopener noreferrer">X</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section chart" id="chart">
+      <div class="container">
+        <div class="chart-head reveal">
+          <div>
+            <p class="eyebrow">Live tape</p>
+            <h2 class="section-title">DexScreener</h2>
+          </div>
+          <a id="dexscreener-link" href="https://dexscreener.com/bsc" target="_blank" rel="noopener noreferrer" class="chart-link">Open full chart →</a>
+        </div>
+        <div class="chart-frame reveal" id="chart-wrapper">
+          <iframe
+            id="dexscreener-embed"
+            class="dexscreener-embed"
+            title="DexScreener $CZBUILDER Chart"
+            allow="clipboard-write"
+            loading="lazy"
+          ></iframe>
+          <div class="chart-tba" id="chart-tba" hidden>
+            <span class="eyebrow">Live chart</span>
+            <strong>TBA</strong>
+            <p>Chart lights up when the BSC CA is live.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-row">
+      <div class="footer-brand">
+        <img src="logo.png" alt="" />
+        <div>
+          <strong>CZ The Builder</strong>
+          <span>$CZBUILDER · BNB Smart Chain</span>
+        </div>
+      </div>
+      <p class="footer-note">
+        $CZBUILDER is a meme token with no intrinsic value or expectation of financial return.
+        Not affiliated with Binance. Not financial advice. DYOR.
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</body>
+</html>
