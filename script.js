@@ -5,6 +5,8 @@ const CONFIG = {
   twitter: "https://x.com/cz_binance/status/2102688111813628308",
 };
 
+const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 function isCaLive() {
   const ca = (CONFIG.tokenAddress || "").trim();
   return /^0x[a-fA-F0-9]{40}$/.test(ca);
@@ -39,6 +41,23 @@ function buildDexScreenerEmbedUrl(id) {
   return `https://dexscreener.com/bsc/${id}?${params.toString()}`;
 }
 
+function initLoader() {
+  const boot = () => {
+    document.body.classList.remove("is-loading");
+    document.body.classList.add("is-ready");
+  };
+
+  if (reduceMotion()) {
+    boot();
+    return;
+  }
+
+  const done = () => window.setTimeout(boot, 520);
+  if (document.readyState === "complete") done();
+  else window.addEventListener("load", done, { once: true });
+  window.setTimeout(boot, 2200);
+}
+
 function initContract() {
   const display = document.getElementById("ca-display");
   const copyBtn = document.getElementById("copy-ca");
@@ -63,6 +82,8 @@ function initContract() {
         toast.textContent = "Contract address copied!";
         toast.classList.add("show");
       }
+      const rect = copyBtn.getBoundingClientRect();
+      burstSparks(rect.left + rect.width / 2, rect.top + rect.height / 2, 6);
       setTimeout(() => {
         copyBtn.classList.remove("copied");
         copyBtn.querySelector("span").textContent = "Copy";
@@ -202,21 +223,24 @@ function initReveals() {
   const nodes = document.querySelectorAll(".reveal");
   if (!nodes.length) return;
 
-  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  if (!("IntersectionObserver" in window) || reduceMotion()) {
     nodes.forEach((el) => el.classList.add("in"));
+    document.querySelector(".lineage-track")?.classList.add("in-view");
     return;
   }
 
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in");
-          io.unobserve(entry.target);
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in");
+        if (entry.target.closest(".lineage-track")) {
+          entry.target.closest(".lineage-track")?.classList.add("in-view");
         }
+        io.unobserve(entry.target);
       });
     },
-    { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
   );
 
   nodes.forEach((el) => io.observe(el));
@@ -224,12 +248,15 @@ function initReveals() {
 
 function initDiamonds() {
   const canvas = document.getElementById("diamonds");
-  if (!canvas || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!canvas || reduceMotion()) return;
 
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
   const gems = [];
+  let raf = 0;
+  let visible = true;
+
   const resize = () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -244,6 +271,7 @@ function initDiamonds() {
         s: 3 + Math.random() * 5,
         v: 0.15 + Math.random() * 0.45,
         a: 0.12 + Math.random() * 0.28,
+        wobble: Math.random() * Math.PI * 2,
       });
     }
   };
@@ -259,9 +287,15 @@ function initDiamonds() {
   };
 
   const tick = () => {
+    if (!visible) {
+      raf = requestAnimationFrame(tick);
+      return;
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     gems.forEach((gem) => {
       gem.y -= gem.v;
+      gem.wobble += 0.01;
+      gem.x += Math.sin(gem.wobble) * 0.15;
       if (gem.y < -12) {
         gem.y = canvas.height + 12;
         gem.x = Math.random() * canvas.width;
@@ -269,7 +303,7 @@ function initDiamonds() {
       ctx.fillStyle = `rgba(240, 185, 11, ${gem.a})`;
       drawDiamond(gem.x, gem.y, gem.s);
     });
-    requestAnimationFrame(tick);
+    raf = requestAnimationFrame(tick);
   };
 
   resize();
@@ -278,7 +312,12 @@ function initDiamonds() {
     resize();
     spawn(Math.min(42, Math.floor(window.innerWidth / 36)));
   });
+  document.addEventListener("visibilitychange", () => {
+    visible = document.visibilityState === "visible";
+  });
   tick();
+
+  return () => cancelAnimationFrame(raf);
 }
 
 function stampSpark(clientX, clientY, options = {}) {
@@ -299,6 +338,13 @@ function stampSpark(clientX, clientY, options = {}) {
   window.setTimeout(() => el.remove(), (options.life ?? 1.05) * 1000 + 80);
 }
 
+function burstSparks(x, y, count = 8) {
+  if (reduceMotion()) return;
+  for (let i = 0; i < count; i += 1) {
+    window.setTimeout(() => stampSpark(x, y), i * 35);
+  }
+}
+
 function initVowSpark() {
   const btn = document.getElementById("pet-ceo");
   if (!btn) return;
@@ -307,14 +353,110 @@ function initVowSpark() {
     const rect = btn.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    for (let i = 0; i < 8; i += 1) {
-      window.setTimeout(() => stampSpark(cx, cy), i * 40);
-    }
+    burstSparks(cx, cy, 10);
+    btn.classList.add("is-burst");
+    window.setTimeout(() => btn.classList.remove("is-burst"), 500);
     event.stopPropagation();
   });
 }
 
+function initParallax() {
+  if (reduceMotion()) return;
+  const visual = document.querySelector("[data-parallax]");
+  const banner = visual?.querySelector(".hero-banner");
+  if (!visual || !banner) return;
+
+  let ticking = false;
+  const update = () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight * 1.2) {
+      banner.style.translate = `0 ${y * 0.22}px`;
+    }
+    ticking = false;
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    },
+    { passive: true }
+  );
+}
+
+function initCursorGlow() {
+  const glow = document.getElementById("cursor-glow");
+  if (!glow || reduceMotion()) return;
+  if (!window.matchMedia("(pointer: fine)").matches) return;
+
+  document.body.classList.add("has-pointer");
+  let x = 0;
+  let y = 0;
+  let cx = 0;
+  let cy = 0;
+  let on = false;
+  let raf = 0;
+
+  const loop = () => {
+    cx += (x - cx) * 0.12;
+    cy += (y - cy) * 0.12;
+    glow.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+    raf = requestAnimationFrame(loop);
+  };
+
+  window.addEventListener(
+    "pointermove",
+    (event) => {
+      x = event.clientX;
+      y = event.clientY;
+      if (!on) {
+        on = true;
+        glow.classList.add("is-on");
+        raf = requestAnimationFrame(loop);
+      }
+    },
+    { passive: true }
+  );
+
+  window.addEventListener("pointerleave", () => {
+    glow.classList.remove("is-on");
+  });
+}
+
+function initMagneticButtons() {
+  if (reduceMotion() || !window.matchMedia("(pointer: fine)").matches) return;
+
+  document.querySelectorAll(".btn-magnetic").forEach((btn) => {
+    btn.addEventListener("pointermove", (event) => {
+      const rect = btn.getBoundingClientRect();
+      const dx = event.clientX - (rect.left + rect.width / 2);
+      const dy = event.clientY - (rect.top + rect.height / 2);
+      btn.style.transform = `translate(${dx * 0.12}px, ${dy * 0.18 - 3}px)`;
+    });
+    btn.addEventListener("pointerleave", () => {
+      btn.style.transform = "";
+    });
+  });
+}
+
+function initCardSpotlights() {
+  if (reduceMotion() || !window.matchMedia("(pointer: fine)").matches) return;
+
+  document.querySelectorAll(".board-card").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const rect = card.getBoundingClientRect();
+      const mx = ((event.clientX - rect.left) / rect.width) * 100;
+      const my = ((event.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty("--mx", `${mx}%`);
+      card.style.setProperty("--my", `${my}%`);
+    });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  initLoader();
   initContract();
   initChart();
   initNav();
@@ -323,4 +465,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initReveals();
   initDiamonds();
   initVowSpark();
+  initParallax();
+  initCursorGlow();
+  initMagneticButtons();
+  initCardSpotlights();
 });
